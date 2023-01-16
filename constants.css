@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,300;1,600&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Mono:ital,wght@1,400;1,600&display=swap');
+
+:root {
+    --font-family: 'Montserrat', sans-serif;
+    --font-mono: 'Red Hat Mono', 'Roboto Mono', monospace;
+
+    --light-navy: #003d52;
+    --lightest-navy: #00506c;
+    --navy-shadow: rgba(2, 12, 27, 0.7);
+    --dark-gray: #646671;
+    --gray: #888a95;
+    --light-gray: #9b9ca6;
+    --lightest-gray: #adafb7;
+    --white: #fafafa;
+    --blue: #02b9ff;
+    --blue-tint: rgba(100, 218, 255, 0.3);
+
+    --fs-xxs: 12px;
+    --fs-xs: 13px;
+    --fs-sm: 14px;
+    --fs-md: 16px;
+    --fs-lg: 18px;
+    --fs-xl: 20px;
+    --fs-xxl: 22px;
+    --fs-heading: 32px;
+}
