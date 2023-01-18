@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Singapore General Knowledge Quiz</title>
     </head>
-    <style><?php include 'C:\wamp\www\Assignment1\leaderboard.css'; ?></style>
+    <style><?php include './leaderboard.css'; ?></style>
     <body>
         <?php 
         { ?>

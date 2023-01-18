@@ -1,4 +1,4 @@
-@import './constants.css';
+@import '../constants.css';
 
 html {
     box-sizing: border-box;
@@ -45,31 +45,18 @@ input[type=submit], button {
     font-size: var(--fz-md);
 }
 
-.intro-container {
-    flex-direction: column;
-    align-items: flex-start;
-    height: 30vh;
-    padding: 0;
+.form-container {
+    margin: 0 auto;
+    padding: 30px 0;
+    max-width: 1000px;
 }
 
-.options-container {
+.quesButton {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-}
-
-.options-container a {
-    padding: 10px;
-}
-
-.nickname-form {
-    padding: 10px;
-    display: inline-block;
-}
-
-.nickname-form input[type="submit"] {
-    float: right;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 50px;
+    width: 600px;
 }
 
 @media (max-width: 768px) {
@@ -81,11 +68,5 @@ input[type=submit], button {
 @media (max-width: 480px) {
     .main-container {
         padding: 60px 0;
-    }
-}
-
-@media (max-height: 700px) and (min-width: 700px), (max-width: 360px) {
-    .intro-container {
-        height: auto;
     }
 }
