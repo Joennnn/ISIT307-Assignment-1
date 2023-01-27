@@ -12,13 +12,12 @@
         # Reference quiz https://www.funtrivia.com/en/History/Singapore-18266.html
         # Open questions file
         $filename = "question.txt";
-        $fp = @fopen($filename, 'r'); 
+        $fp = @fopen($filename, 'r');
 
         # Add each line to an array
         if ($fp) {
             $histQues = explode("\n", fread($fp, filesize($filename)));
         }
-        @fclose($filename);
  
         # Open answers file
         $filename = "answer.txt";
@@ -28,7 +27,6 @@
         if ($fp) {
             $histAns = explode("\n", fread($fp, filesize($filename)));
         }
-        @fclose($filename);
 
         # Obtaining index of question array
         $quesIndex = array_rand($histQues);
