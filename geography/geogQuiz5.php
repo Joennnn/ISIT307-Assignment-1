@@ -28,10 +28,10 @@
             $geogAns = explode("\n", fread($fp, filesize($filename)));
         }
 
+        # Obtaining index of question array
         $quesIndex = array_rand($geogQues);
-        
+        # Obtaining answer for current question
         $ansVal = $geogAns[$quesIndex];
-        echo ($ansVal);
 
         if (isset($_POST['submit'])) {
             $Answers = $_POST['ans'];
@@ -52,6 +52,7 @@
 
         else {
             ?>
+            <h1>Question 5</h1>
             <div class='form-container'>
                 <form action='geogQuiz5.php' method='POST'>
                     <?php echo '<p>'; echo($geogQues[$quesIndex]); echo '</p>'; ?>

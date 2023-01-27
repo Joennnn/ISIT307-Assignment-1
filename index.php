@@ -15,24 +15,18 @@
         }
         { ?>
         <div class="main-container">
-            <div class="options-container">
-                <h1>Singapore General Knowledge Quiz</h1>
-                <a href="./history/histQuiz1.php">
-                    <button>Singapore History</button>
-                </a>
-                
-                <a href="./geography/geogQuiz1.php">
-                    <button>Singapore Geography</button>
-                </a>
-                
-                <a href="./leaderboard.php">
-                    <button>Leaderboard</button>
-                </a>
-                
-                <a href="./welcome.php">
-                    <button>Exit quiz</button>
-                </a>
-            </div>
+            <div class="intro-container">
+                <div class="title">
+                    <h1>Welcome to Singapore General Knowledge Quiz</h1>
+                    <div class="nickname-form">
+                        <form action="index.php"  method="POST">
+                            <label for="nickname">Enter a nickname: </label>
+                            <input type="text" id="nickname" name="nickname"><br><br>
+                            <input type="submit" value="Submit">
+                        </form>
+                    </div>
+                </div>
+            </div>    
         </div>
         <?php
         }

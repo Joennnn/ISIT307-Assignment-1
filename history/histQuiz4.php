@@ -11,7 +11,7 @@
         <?php 
         # Reference quiz https://www.funtrivia.com/en/History/Singapore-18266.html
         # Open questions file
-        $filename = "question.txt";
+        $filename = "open-ended.txt";
         $fp = @fopen($filename, 'r'); 
 
         # Add each line to an array
@@ -20,7 +20,7 @@
         }
  
         # Open answers file
-        $filename = "answer.txt";
+        $filename = "open-endedAns.txt";
         $fp = @fopen($filename, 'r'); 
 
         # Add each line to an array
@@ -28,10 +28,10 @@
             $histAns = explode("\n", fread($fp, filesize($filename)));
         }
 
+        # Obtaining index of question array
         $quesIndex = array_rand($histQues);
-        
+        # Obtaining answer for current question
         $ansVal = $histAns[$quesIndex];
-        echo ($ansVal);
                                 
         if (isset($_POST['submit'])) {
             $Answers = $_POST['ans'];
@@ -53,8 +53,9 @@
 
         else {
             ?>
+            <h1>Question 4</h1>
             <div class='form-container'>
-                <form action='histQuiz5.php' method='POST'>
+                <form action='histQuiz4.php' method='POST'>
                     <?php echo '<p>'; echo($histQues[$quesIndex]); echo '</p>'; ?>
                     <input type='text' placeholder="Enter your answer" />
                     

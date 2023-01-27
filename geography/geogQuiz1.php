@@ -9,10 +9,10 @@
     <style><?php include './quiz.css'; ?></style>
     <body>
     <?php 
-        # Reference quiz https://www.funtrivia.com/en/History/Singapore-18266.html
+        # Reference quiz https://www.funtrivia.com/en/Geography/Singapore-12873.html
         # Open questions file
-        $filename = "multiplechoice.txt";
-        $fp = @fopen($filename, 'r'); 
+        $filename = "mcqQues.txt";
+        $fp = @fopen($filename, 'r');
 
         # Add each line to an array
         if ($fp) {
@@ -20,18 +20,24 @@
         }
  
         # Open answers file
-        $filename = "multiplechoiceAns.txt";
+        $filename = "mcqChoice.txt";
         $fp = @fopen($filename, 'r'); 
+        $mcqChoice = array();
 
         # Add each line to an array
         if ($fp) {
-            $geogAns = explode("\n", fread($fp, filesize($filename)));
+            $geogChoice = explode("\n", fread($fp, filesize($filename)));
+        }
+        
+        # Adding item to array
+        foreach ($geogChoice as $item){
+            $mcqChoice[] = explode(",", $item);
         }
 
         # Obtaining index of question array
         $quesIndex = array_rand($geogQues);
         # Obtaining answer for current question
-        $ansVal = $geogAns[$quesIndex];
+        $ansVal = $mcqChoice[$quesIndex][0];
 
         if (isset($_POST['submit'])) {
             # Variables to save correct and incorrect answers
@@ -61,26 +67,19 @@
                     <button>Back</button>
                 </a>
                 <h1>Quiz on Singapore Geography</h1>
+                <h1>Question 1</h1>
                 <div class='form-container'>
                     <form action='geogQuiz1.php' method='POST'>
-                        <?php echo '<p>'; echo($geogQues[$quesIndex]); echo '</p>'; ?>
-                        <label>
-                            <input type="radio" name="radio" value="English">English
-                        </label>
+                    <?php echo '<p>'; echo($geogQues[$quesIndex]); echo '</p>'; ?> <br />
 
-                        <label>
-                            <input type="radio" name="radio" value="Chinese">Chinese
-                        </label>
-
-                        <label>
-                            <input type="radio" name="radio" value="Malay">Malay
-                        </label>
-
-                        <label>
-                            <input type="radio" name="radio" value="Tamil">Tamil
-                        </label>
-
-                        <br /> <br />
+                    <?php 
+                        # Loops through the 4 mcq choices
+                        for ($x = 1; $x <= 4; $x++) {
+                    ?>
+                        <input type="radio" name="radio" value="<?php echo($mcqChoice[$quesIndex][$x]); ?>" /><?php echo ($mcqChoice[$quesIndex][$x]); ?><br /><br />
+                    <?php
+                    }
+                    ?>
 
                         <div class="quesButton">
                             <input type='submit' name='submit' value='Next' />

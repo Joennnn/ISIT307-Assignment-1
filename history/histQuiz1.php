@@ -11,7 +11,7 @@
         <?php 
         # Reference quiz https://www.funtrivia.com/en/History/Singapore-18266.html
         # Open questions file
-        $filename = "question.txt";
+        $filename = "mcqQues.txt";
         $fp = @fopen($filename, 'r');
 
         # Add each line to an array
@@ -20,21 +20,30 @@
         }
  
         # Open answers file
-        $filename = "answer.txt";
+        $filename = "mcqChoice.txt";
         $fp = @fopen($filename, 'r'); 
+        $mcqChoice = array();
 
         # Add each line to an array
         if ($fp) {
-            $histAns = explode("\n", fread($fp, filesize($filename)));
+            $histChoice = explode("\n", fread($fp, filesize($filename)));
+        }
+        
+        # Adding item to array
+        foreach ($histChoice as $item){
+            $mcqChoice[] = explode(",", $item);
         }
 
         # Obtaining index of question array
         $quesIndex = array_rand($histQues);
         # Obtaining answer for current question
-        $ansVal = $histAns[$quesIndex];
-        #echo ($ansVal);
+        $ansVal = $mcqChoice[$quesIndex][0];
                                 
         if (isset($_POST['submit'])) {
+            # Variables to save correct and incorrect answers
+            $countCorrect = 0;
+            $countWrong = 0;
+            
             $Answers = $_POST['ans'];
             if (is_array($Answers)) {
                 foreach ($Answers as $State => $Response) {
@@ -59,12 +68,19 @@
                     <button>Back</button>
                 </a>
                 <h1>Quiz on Singapore History</h1>
+                <h1>Question 1</h1>
                 <div class='form-container'>
                     <form action='histQuiz1.php' method='POST'>
-                        <?php echo '<p>'; echo($histQues[$quesIndex]); echo '</p>'; ?>
-                        <input type='text' placeholder="Enter your answer" />
+                        <?php echo '<p>'; echo($histQues[$quesIndex]); echo '</p>'; ?> <br />
 
-                        <br /> <br />
+                        <?php 
+                            # Loops through the 4 mcq choices
+                            for ($x = 1; $x <= 4; $x++) {
+                        ?>
+                            <input type="radio" name="radio" value="<?php echo($mcqChoice[$quesIndex][$x]); ?>" /><?php echo ($mcqChoice[$quesIndex][$x]); ?><br /><br />
+                        <?php
+                        }
+                        ?>
 
                         <div class="quesButton">
                             <input type='submit' name='submit' value='Next' />
