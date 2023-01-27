@@ -11,7 +11,7 @@
     <?php 
         # Reference quiz https://www.funtrivia.com/en/History/Singapore-18266.html
         # Open questions file
-        $filename = "question.txt";
+        $filename = "multiplechoice.txt";
         $fp = @fopen($filename, 'r'); 
 
         # Add each line to an array
@@ -20,7 +20,7 @@
         }
  
         # Open answers file
-        $filename = "answer.txt";
+        $filename = "multiplechoiceAns.txt";
         $fp = @fopen($filename, 'r'); 
 
         # Add each line to an array
@@ -64,7 +64,21 @@
                 <div class='form-container'>
                     <form action='geogQuiz1.php' method='POST'>
                         <?php echo '<p>'; echo($geogQues[$quesIndex]); echo '</p>'; ?>
-                        <input type='text' placeholder="Enter your answer" />
+                        <label>
+                            <input type="radio" name="radio" value="English">English
+                        </label>
+
+                        <label>
+                            <input type="radio" name="radio" value="Chinese">Chinese
+                        </label>
+
+                        <label>
+                            <input type="radio" name="radio" value="Malay">Malay
+                        </label>
+
+                        <label>
+                            <input type="radio" name="radio" value="Tamil">Tamil
+                        </label>
 
                         <br /> <br />
 
