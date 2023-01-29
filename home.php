@@ -6,36 +6,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Singapore General Knowledge Quiz</title>
     </head>
-    <style><?php include './index.css'; ?></style>
+    <style><?php include './styles/index.css'; ?></style>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
-        <?php 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $nickname = $_POST['nickname'];
-            echo "<h1>". $nickname ."</h1>";
-        }
-        { ?>
         <div class="main-container">
             <div class="options-container">
                 <h1>Singapore General Knowledge Quiz</h1>
-                <a href="./history/histQuiz1.php">
-                    <button>Singapore History</button>
-                </a>
-                
-                <a href="./geography/geogQuiz1.php">
-                    <button>Singapore Geography</button>
-                </a>
-                
-                <a href="./leaderboard.php">
-                    <button>Leaderboard</button>
-                </a>
-                
-                <a href="./currPoints.php">
-                    <button>Exit quiz</button>
-                </a>
+                <div class="button-container">
+                    <a href="./history/histQuiz1.php">
+                        <button name="history">Singapore History</button>
+                    </a>
+                    <a href="./geography/geogQuiz1.php">
+                        <button name="geography">Singapore Geography</button>
+                    </a>
+                    <a href="./leaderboard.php">
+                        <button name="leaderboard">Leaderboard</button>
+                    </a>
+                    <a href="./currPoints.php">
+                        <button name="exit">Exit quiz</button>
+                    </a>
+                </div>
             </div>
         </div>
-        <?php
-        }
-        ?>
+        <script>
+            var nickname = sessionStorage.getItem("nickname");
+            console.log(nickname)
+        </script>
     </body>
 </html>

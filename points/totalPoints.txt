@@ -1,2 +1,8 @@
-user1, -7, 25
-user2, 25, 9
+user1, 18
+user2, 34
+abc, 28
+fgh, 44
+ert, 2
+qwe, 56
+bnhj, -8
+hjjg, 110

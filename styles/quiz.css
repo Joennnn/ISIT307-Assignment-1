@@ -51,6 +51,26 @@ input[type=submit], button {
     max-width: 1000px;
 }
 
+.points-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.points-container h1 {
+    font-family: var(--font-mono);
+}
+
+.options-container {
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
 .quesButton {
     display: flex;
     flex-direction: row;

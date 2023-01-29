@@ -4,9 +4,10 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>History Quiz</title>
+        <title>History Quiz Question 2</title>
     </head>
-    <style><?php include './quiz.css'; ?></style>
+    <style><?php include '../styles/quiz.css'; ?></style>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
         <?php 
         # Reference quiz https://www.funtrivia.com/en/History/Singapore-18266.html
@@ -31,57 +32,53 @@
         
         # Adding item to array
         foreach ($histChoice as $item){
-            $mcqChoice[] = explode(",", $item);
+            $mcqChoice[] = explode(", ", $item);
         }
 
         # Obtaining index of question array
         $quesIndex = array_rand($histQues);
         # Obtaining answer for current question
-        $ansVal = $mcqChoice[$quesIndex][0];
-                                
-        if (isset($_POST['submit'])) {
-            $Answers = $_POST['ans'];
-            if (is_array($Answers)) {
-                foreach ($Answers as $State => $Response) {
-                    $Response = stripslashes($Response);
-                    if (strlen($Response)>0) {
-                        if (strcasecmp($StateCapitals["$State"],$Response)==0)
-                            echo "<p>Correct! The capital of $State is " . $StateCapitals[$State] . ".</p>\n";
-                        else
-                            echo "<p>Sorry, the capital of $State is not '" . $Response . "'.</p>\n";
-                    }
-                    else
-                        echo "<p>You did not enter a value for the capital of $State.</p>\n";
-                } 
-            }
-            echo "<p><a href='quizCapitals.php'> Try again?</a></p>\n";
-        }
-
-        else {
-            ?>
+        $ansVal = $mcqChoice[$quesIndex][0];              
+        ?>
+        <div class="main-container">
             <h1>Question 2</h1>
             <div class='form-container'>
-                <form action='histQuiz2.php' method='POST'>
-                    <?php echo '<p>'; echo($histQues[$quesIndex]); echo '</p>'; ?><br />
-
-                    <?php 
-                        # Loops through the 4 mcq choices
-                        for ($x = 1; $x <= 4; $x++) {
-                    ?>
-                        <input type="radio" name="radio" value="<?php echo($mcqChoice[$quesIndex][$x]); ?>" /><?php echo ($mcqChoice[$quesIndex][$x]); ?><br /><br />
-                    <?php
-                    }
-                    ?>
-                    
+            <form action='histQuiz3.php' method='POST'>
+                    <?php echo '<p>'; echo($histQues[$quesIndex]); echo '</p>'; ?> <br />
+        <?php 
+                # Loops through the 4 mcq choices
+                for ($x = 1; $x <= 4; $x++) {
+            ?>
+                <input type="radio" name="radio" value="<?php echo($mcqChoice[$quesIndex][$x]); ?>" /><?php echo ($mcqChoice[$quesIndex][$x]); ?><br /><br />
+            <?php
+            }
+            ?>
                     <div class="quesButton">
-                        <input type='submit' name='submit' value='Previous' />
-                        <input type='submit' name='submit' value='Next' />
+                        <input type='submit' name='previous' value='Previous' />
+                        <input type='submit' name='next' value='Next' />
                     </div>
                 </form>
             </div>
-            
-            <?php
-        }
-        ?>
+        </div>
+
+        <script>
+            // Obtaining currPoints from previous page
+            var currPoints = parseInt(sessionStorage.getItem("currPoints"));
+            var ansVal = <?php echo json_encode($ansVal, JSON_HEX_TAG); ?>.trim();
+            console.log(ansVal);
+
+            $('input[type=radio]').click(function(e) {
+                var value = $(this).val();
+
+                if (value.trim() === ansVal) {
+                    currPoints = currPoints + (1 * 5);
+                }
+                else if (value.trim() !== ansVal){
+                    currPoints = currPoints - (1 * 3);
+                }
+                // Saving current user points in session
+                sessionStorage.setItem("currPoints", currPoints);
+            });
+        </script>
     </body>
 </html>

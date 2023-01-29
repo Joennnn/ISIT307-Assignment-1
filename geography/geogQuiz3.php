@@ -4,14 +4,15 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Geography Quiz</title>
+        <title>Geography Quiz Question 3</title>
     </head>
-    <style><?php include './quiz.css'; ?></style>
+    <style><?php include '../styles/quiz.css'; ?></style>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
     <?php 
         # Reference quiz https://www.funtrivia.com/en/History/Singapore-18266.html
         # Open questions file
-        $filename = "question.txt";
+        $filename = "open-ended.txt";
         $fp = @fopen($filename, 'r'); 
 
         # Add each line to an array
@@ -20,8 +21,8 @@
         }
  
         # Open answers file
-        $filename = "answer.txt";
-        $fp = @fopen($filename, 'r'); 
+        $filename = "open-endedAns.txt";
+        $fp = @fopen($filename, 'r');
 
         # Add each line to an array
         if ($fp) {
@@ -32,42 +33,60 @@
         $quesIndex = array_rand($geogQues);
         # Obtaining answer for current question
         $ansVal = $geogAns[$quesIndex];
-
-        if (isset($_POST['submit'])) {
-            $Answers = $_POST['ans'];
-            if (is_array($Answers)) {
-                foreach ($Answers as $State => $Response) {
-                    $Response = stripslashes($Response);
-                    if (strlen($Response)>0) {
-                        if (strcasecmp($StateCapitals["$State"],$Response)==0)
-                            echo "<p>Correct! The capital of $State is " . $StateCapitals[$State] . ".</p>\n";
-                        else
-                            echo "<p>Sorry, the capital of $State is not '" . $Response . "'.</p>\n";
-                    }
-                    else
-                        echo "<p>You did not enter a value for the capital of $State.</p>\n";
-                } 
-            }
-        }
-
-        else {
-            ?>
+        
+        ?>
+        <div class="main-container">
             <h1>Question 3</h1>
             <div class='form-container'>
-                <form action='geogQuiz3.php' method='POST'>
+                <form action='geogQuiz4.php' method='POST'>
                     <?php echo '<p>'; echo($geogQues[$quesIndex]); echo '</p>'; ?>
-                    <input type='text' placeholder="Enter your answer" />
+                    <input type='text' name="ansText" placeholder="Enter your answer" />
                     
                     <br /> <br />
 
                     <div class="quesButton">
-                        <input type='submit' name='submit' value='Previous' />
-                        <input type='submit' name='submit' value='Next' />
+                        <input type='submit' name='previous' value='Previous' />
+                        <input type='submit' name='next' value='Next' />
                     </div>
                 </form>
             </div>
-            <?php
-        }
-        ?>
+        </div>
+        <script>
+            // Obtaining currPoints from previous page
+            var currPoints = parseInt(sessionStorage.getItem("currPoints"));
+            var ansVal = <?php echo json_encode($ansVal, JSON_HEX_TAG); ?>; 
+
+            // Setting time out variable
+            var type_timer;
+            var finished_writing_interval = 500;
+            var inputText = document.getElementsByName("ansText")[0];
+
+            // Start timeout when user start typing
+            inputText.addEventListener('keyup', function () {
+                clearTimeout(type_timer);
+                type_timer = setTimeout(finished_typing, finished_writing_interval);
+            });
+
+            // Clear timeout on key down event
+            inputText.addEventListener('keydown', function () {
+                clearTimeout(type_timer);
+            });
+
+            // When user finish typing, user input will be checked against answer
+            function finished_typing () {
+                var finalText = document.getElementsByName("ansText")[0].value;
+
+                if (finalText.trim().toLowerCase() === ansVal.trim().toLowerCase()) {
+                    currPoints = currPoints + (1 * 5);
+                    console.log(currPoints);
+                }
+                else if (finalText.trim().toLowerCase() === ansVal.trim().toLowerCase()){
+                    currPoints = currPoints - (1 * 3);
+                    console.log(currPoints);
+                }
+                // Saving current user points in session
+                sessionStorage.setItem("currPoints", currPoints);
+            }
+        </script>
     </body>
 </html>

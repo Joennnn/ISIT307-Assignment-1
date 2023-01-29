@@ -1,0 +1,66 @@
+@import './constants.css';
+
+.leaderboard-container {
+    margin: 0 auto;
+    padding: 100px 0;
+    max-width: 1000px;
+}
+
+.rankings {
+    margin: 0 auto;
+    padding: 30px 0;
+    max-width: 1000px;
+}
+
+.rankings table {
+    font-family: var(--font-mono);
+    border-collapse: collapse;
+    color: var(--gray);
+    width: 100%;
+}
+
+th {
+    color: var(--white);
+    background-color: var(--lightest-gray);
+}
+
+td, th {
+    border: 1px solid var(--gray);
+    text-align: left;
+    padding: 8px;
+    text-align: center;
+}
+
+tr:hover {
+    background-color: var(--dark-gray);
+    color: var(--white);
+}
+
+.back-button {
+    padding: 5px;
+    letter-spacing: 1px;
+    color: var(--dark-gray);
+    font-family: var(--font-mono);
+    font-size: var(--fz-md);
+}
+
+.filter-button {
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.filter-button img {
+    width: 40px;
+    height: 40px;
+}
+
+.filter-button button {
+    height: 50px;
+    background-color: transparent;
+    border: 0px;
+}
+
+.filter-button button:hover {
+    cursor: pointer;
+}

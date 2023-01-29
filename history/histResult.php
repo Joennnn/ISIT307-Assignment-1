@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Geography Quiz Results</title>
+        <title>History Quiz Results</title>
     </head>
     <style><?php include '../styles/quiz.css'; ?></style>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
@@ -34,12 +34,12 @@
                 <h1 class="overallPoint"></h1>
             </div>
             <div class="options-container">
-                <a href="./geogQuiz1.php">
+                <a href="./histQuiz1.php">
                     <button>Restart Quiz</button>
                 </a>
 
-                <a href="./history/histQuiz1.php">
-                    <button>History Quiz</button>
+                <a href="./geography/geogQuiz1.php">
+                    <button>Geography Quiz</button>
                 </a>
                 
                 <a href="../leaderboard.php">
