@@ -5,8 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Singapore General Knowledge Quiz</title>
+        <link rel="stylesheet" href='./styles/leaderboard.css'>
     </head>
-    <style><?php include './styles/leaderboard.css'; ?></style>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
         <?php 
@@ -53,6 +53,11 @@
             </div>
         </div>
         <script>
+            // Stop Form Resubmission On Page Refresh
+            if ( window.history.replaceState ) {
+                window.history.replaceState( null, null, window.location.href );
+            }
+
             // Obtaining nickname from previous page
             var nickname = sessionStorage.getItem("nickname");
             // Obtaining array from PHP            
@@ -108,7 +113,7 @@
                 }
             }
 
-            // Function to sort by points
+            // Function to sort points in ascending order
             function sortPoints() {
                 var rows, switching, i, x, y, shouldSwitch;
                 switching = true;
