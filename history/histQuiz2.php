@@ -5,8 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>History Quiz Question 2</title>
-        <link rel="stylesheet" href='../styles/quiz.css'>
     </head>
+    <style><?php include '../styles/quiz.css'; ?></style>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
         <?php 
@@ -38,7 +38,7 @@
         # Obtaining index of question array
         $quesIndex = array_rand($histQues);
         # Obtaining answer for current question
-        $ansVal = $mcqChoice[$quesIndex][0];
+        $ansVal = $mcqChoice[$quesIndex][0];              
         ?>
         <div class="main-container">
             <h1>Question 2</h1>
@@ -54,19 +54,14 @@
             }
             ?>
                     <div class="quesButton">
-                        <input type='submit' name='previous' value='Previous' />
-                        <input type='submit' name='next' value='Next' />
+                        <button type="button" onclick="location.href = 'histQuiz1.php'">Previous</button></br></br>
+                        <button type="button" onclick="location.href = 'histQuiz3.php'">Next</button></br></br>
                     </div>
                 </form>
             </div>
         </div>
 
         <script>
-            // Stop Form Resubmission On Page Refresh
-            if ( window.history.replaceState ) {
-                window.history.replaceState( null, null, window.location.href );
-            }
-
             // Obtaining currPoints from previous page
             var currPoints = parseInt(sessionStorage.getItem("currPoints"));
             var ansVal = <?php echo json_encode($ansVal, JSON_HEX_TAG); ?>.trim();
