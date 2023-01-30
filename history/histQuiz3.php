@@ -10,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
         <?php 
+        session_start();
         # Reference quiz https://www.funtrivia.com/en/History/Singapore-18266.html
         # Open questions file
         $filename = "mcqQues.txt";
@@ -36,7 +37,7 @@
         }
 
         # Obtaining index of question array
-        $quesIndex = array_rand($histQues);
+        $quesIndex = $_SESSION['key3'] ?? ( $_SESSION['key3'] = array_rand($histQues));
         # Obtaining answer for current question
         $ansVal = $mcqChoice[$quesIndex][0];
 
@@ -44,16 +45,16 @@
         <div class="main-container">
             <h1>Question 3</h1>
             <div class='form-container'>
-            <form action='histQuiz4.php' method='POST'>
+                <form action='histQuiz4.php' method='POST'>
                     <?php echo '<p>'; echo($histQues[$quesIndex]); echo '</p>'; ?> <br />
-        <?php 
-                # Loops through the 4 mcq choices
-                for ($x = 1; $x <= 4; $x++) {
-            ?>
-                <input type="radio" name="radio" value="<?php echo($mcqChoice[$quesIndex][$x]); ?>" /><?php echo ($mcqChoice[$quesIndex][$x]); ?><br /><br />
-            <?php
-            }
-            ?>
+                    <?php 
+                        # Loops through the 4 mcq choices
+                        for ($x = 1; $x <= 4; $x++) {
+                    ?>
+                        <input type="radio" name="radio" id="<?php echo($mcqChoice[$quesIndex][$x]); ?>" value="<?php echo($mcqChoice[$quesIndex][$x]); ?>" /><?php echo ($mcqChoice[$quesIndex][$x]); ?><br /><br />
+                    <?php
+                    }
+                    ?>
                     <div class="quesButton">
                         <button type="button" onclick="location.href = 'histQuiz2.php'">Previous</button></br></br>
                         <button type="button" onclick="location.href = 'histQuiz4.php'">Next</button></br></br>
@@ -63,25 +64,41 @@
         </div>
 
         <script>
+            // Ensuring selected radio is remembered if user presses back
+            $(function() {
+                $('input[type=radio]').each(function() {
+                    var state = JSON.parse( localStorage.getItem('inputRadio'  + this.id) );
+                    if (state) this.checked = state.checked;
+                });
+            });
+
+            $(window).bind('unload', function() {
+                $('input[type=radio]').each(function() {
+                    localStorage.setItem('inputRadio' + this.id, JSON.stringify({checked: this.checked}));
+                });
+            });
+
             // Stop Form Resubmission On Page Refresh
             if ( window.history.replaceState ) {
                 window.history.replaceState( null, null, window.location.href );
             }
-            // Obtaining currPoints from previous page
-            var currPoints = parseInt(sessionStorage.getItem("currPoints"));
-            var ansVal = <?php echo json_encode($ansVal, JSON_HEX_TAG); ?>.trim(); 
+
+            // Obtaining answer from  server side
+            var ansVal = <?php echo json_encode($ansVal, JSON_HEX_TAG); ?>.trim();
 
             $('input[type=radio]').click(function(e) {
+                // Points start from 0
+                var currPoints = 0;
                 var value = $(this).val();
 
                 if (value.trim() === ansVal) {
-                    currPoints = currPoints + (1 * 5);
+                    currPoints = 5;
                 }
                 else if (value.trim() !== ansVal){
-                    currPoints = currPoints - (1 * 3);
+                    currPoints = -3;
                 }
                 // Saving current user points in session
-                sessionStorage.setItem("currPoints", currPoints);
+                sessionStorage.setItem("ques3Points", currPoints);
             });
         </script>
     </body>

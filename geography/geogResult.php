@@ -76,14 +76,18 @@
 
             // Obtaining nickname from previous page
             var nickname = sessionStorage.getItem("nickname");
-            // Obtaining currPoints from previous page
+
+            // Obtaining points from questions
+            var ques1Points = parseInt(sessionStorage.getItem("ques1Points"));
+            var ques2Points = parseInt(sessionStorage.getItem("ques2Points"));
             var currPoints = parseInt(sessionStorage.getItem("currPoints"));
+
             // Obtaining array from PHP
             var userArr = <?php echo json_encode($userArr); ?>;
 
             // Displays current points from quiz
             let current = document.getElementsByClassName("currentPoint");
-            current[0].innerHTML = currPoints;
+            current[0].innerHTML = (ques1Points + ques2Points + currPoints);
 
             let overall = document.getElementsByClassName("overallPoint");
 

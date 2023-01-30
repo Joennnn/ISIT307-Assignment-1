@@ -50,7 +50,7 @@
                         # Loops through the 4 mcq choices
                         for ($x = 1; $x <= 4; $x++) {
                     ?>
-                        <input type="radio" name="radio" value="<?php echo($mcqChoice[$quesIndex][$x]); ?>" /><?php echo ($mcqChoice[$quesIndex][$x]); ?><br /><br />
+                        <input type="radio" name="radio" id="<?php echo($mcqChoice[$quesIndex][$x]); ?>" value="<?php echo($mcqChoice[$quesIndex][$x]); ?>" /><?php echo ($mcqChoice[$quesIndex][$x]); ?><br /><br />
                     <?php
                     }
                     ?>
@@ -63,25 +63,40 @@
             </div>
         </div>
         <script>
+            // Ensuring selected radio is remembered if user presses back
+            $(function() {
+                $('input[type=radio]').each(function() {
+                    var state = JSON.parse( localStorage.getItem('inputRadio'  + this.id) );
+                    if (state) this.checked = state.checked;
+                });
+            });
+            $(window).bind('unload', function() {
+                $('input[type=radio]').each(function() {
+                    localStorage.setItem('inputRadio' + this.id, JSON.stringify({checked: this.checked}));
+                });
+            });
+            
             // Stop Form Resubmission On Page Refresh
             if ( window.history.replaceState ) {
                 window.history.replaceState( null, null, window.location.href );
             }
-            // Obtaining currPoints from previous page
-            var currPoints = parseInt(sessionStorage.getItem("currPoints"));
-            var ansVal = <?php echo json_encode($ansVal, JSON_HEX_TAG); ?>.trim();         
+
+            // Obtaining answer from  server side
+            var ansVal = <?php echo json_encode($ansVal, JSON_HEX_TAG); ?>.trim();
 
             $('input[type=radio]').click(function(e) {
+                // Points start from 0
+                var currPoints = 0;
                 var value = $(this).val();
 
                 if (value.trim() === ansVal) {
-                    currPoints = currPoints + (1 * 5);
+                    currPoints = 5;
                 }
                 else if (value.trim() !== ansVal){
-                    currPoints = currPoints - (1 * 3);
+                    currPoints = -3;
                 }
                 // Saving current user points in session
-                sessionStorage.setItem("currPoints", currPoints);
+                sessionStorage.setItem("ques2Points", currPoints);
             });
         </script>
     </body>

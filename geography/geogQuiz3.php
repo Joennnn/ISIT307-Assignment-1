@@ -57,8 +57,7 @@
                 window.history.replaceState( null, null, window.location.href );
             }
             
-            // Obtaining currPoints from previous page
-            var currPoints = parseInt(sessionStorage.getItem("currPoints"));
+            // Obtaining answer from server side
             var ansVal = <?php echo json_encode($ansVal, JSON_HEX_TAG); ?>; 
 
             // Setting time out variable
@@ -80,14 +79,13 @@
             // When user finish typing, user input will be checked against answer
             function finished_typing () {
                 var finalText = document.getElementsByName("ansText")[0].value;
+                var currPoints = 0;
 
                 if (finalText.trim().toLowerCase() === ansVal.trim().toLowerCase()) {
-                    currPoints = currPoints + (1 * 5);
-                    console.log(currPoints);
+                    currPoints = 5;
                 }
-                else if (finalText.trim().toLowerCase() === ansVal.trim().toLowerCase()){
-                    currPoints = currPoints - (1 * 3);
-                    console.log(currPoints);
+                else {
+                    currPoints = -3;
                 }
                 // Saving current user points in session
                 sessionStorage.setItem("currPoints", currPoints);

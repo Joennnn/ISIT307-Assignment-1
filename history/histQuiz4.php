@@ -57,7 +57,7 @@
                 window.history.replaceState( null, null, window.location.href );
             }
             // Obtaining currPoints from previous page
-            var currPoints = parseInt(sessionStorage.getItem("currPoints"));
+            var currPoints = 0;
             var ansVal = <?php echo json_encode($ansVal, JSON_HEX_TAG); ?>; 
 
             // Setting time out variable
@@ -81,10 +81,10 @@
                 var finalText = document.getElementsByName("ansText")[0].value;
 
                 if (finalText.trim().toLowerCase() === ansVal.trim().toLowerCase()) {
-                    currPoints = currPoints + (1 * 5);
+                    currPoints = 5;
                 }
-                else if (finalText.trim().toLowerCase() === ansVal.trim().toLowerCase()){
-                    currPoints = currPoints - (1 * 3);
+                else {
+                    currPoints = -3;
                 }
                 // Saving current user points in session
                 sessionStorage.setItem("currPoints", currPoints);

@@ -81,12 +81,10 @@
                 var finalText = document.getElementsByName("ansText")[0].value;
 
                 if (finalText.trim().toLowerCase() === ansVal.trim().toLowerCase()) {
-                    currPoints = currPoints + (1 * 5);
-                    console.log(currPoints);
+                    currPoints = currPoints + 5;
                 }
-                else if (finalText.trim().toLowerCase() === ansVal.trim().toLowerCase()){
-                    currPoints = currPoints - (1 * 3);
-                    console.log(currPoints);
+                else {
+                    currPoints = currPoints - 3;
                 }
                 // Saving current user points in session
                 sessionStorage.setItem("currPoints", currPoints);
