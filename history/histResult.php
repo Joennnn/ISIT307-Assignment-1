@@ -5,8 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>History Quiz Results</title>
+        <link rel="stylesheet" href='../styles/quiz.css'>
     </head>
-    <style><?php include '../styles/quiz.css'; ?></style>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
         <?php 
@@ -38,7 +38,7 @@
                     <button>Restart Quiz</button>
                 </a>
 
-                <a href="./geography/geogQuiz1.php">
+                <a href="../geography/geogQuiz1.php">
                     <button>Geography Quiz</button>
                 </a>
                 
@@ -52,14 +52,34 @@
             </div>
         </div>
         <script>
+            // Stop Form Resubmission On Page Refresh
+            if ( window.history.replaceState ) {
+                window.history.replaceState( null, null, window.location.href );
+            }
+
+            // Creating cookie
+            function createCookie(name, value, days) {
+                var expires;
+                
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toGMTString();
+                }
+                else {
+                    expires = "";
+                }
+                
+                document.cookie = escape(name) + "=" + 
+                    escape(value) + expires + "; path=/";
+            }; 
+            
             // Obtaining nickname from previous page
             var nickname = sessionStorage.getItem("nickname");
             // Obtaining currPoints from previous page
             var currPoints = parseInt(sessionStorage.getItem("currPoints"));
             // Obtaining array from PHP
             var userArr = <?php echo json_encode($userArr); ?>;
-
-            console.log(userArr);
 
             // Displays current points from quiz
             let current = document.getElementsByClassName("currentPoint");
@@ -83,6 +103,29 @@
                     overall[0].innerHTML = currPoints;
                 }
             }
+            // Save new user details to userArr
+            userArr.push([nickname, currPoints]);
+            // Creating cookie after update of userArr
+            $(document).ready(function () {
+                createCookie("userPointsArr", userArr, "10");
+            });
+
         </script>
+        <?php
+            // Getting array by using cookie
+            $txt = $_COOKIE["userPointsArr"];
+
+            // Converting string to array
+            $txtArr = array_map(
+                function($value) {
+                    return implode(', ', $value);
+                },
+                array_chunk(
+                    explode(',', $txt), 2
+                )
+            );
+            // Saving updated array to text file
+            file_put_contents('../points/totalPoints.txt', implode("\n", $txtArr));
+        ?>;
     </body>
 </html>

@@ -5,8 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Geography Quiz Question 1</title>
+        <link rel="stylesheet" href='../styles/quiz.css'>
     </head>
-    <style><?php include '../styles/quiz.css'; ?></style>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
     <?php 
@@ -66,6 +66,11 @@
             </div>
         </div>
         <script>
+            // Stop Form Resubmission On Page Refresh
+            if ( window.history.replaceState ) {
+                window.history.replaceState( null, null, window.location.href );
+            }
+                        
             // Points start from 0
             var currPoints = 0;
             var ansVal = <?php echo json_encode($ansVal, JSON_HEX_TAG); ?>.trim();         

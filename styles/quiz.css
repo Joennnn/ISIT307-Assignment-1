@@ -1,4 +1,4 @@
-@import '../constants.css';
+@import './constants.css';
 
 html {
     box-sizing: border-box;

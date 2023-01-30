@@ -5,8 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Singapore General Knowledge Quiz</title>
+        <link rel="stylesheet" href='./styles/index.css'>
     </head>
-    <style><?php include './styles/index.css'; ?></style>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
         <?php 
@@ -29,6 +29,8 @@
             <div class="intro-container">
                 <div class="title">
                     <h1>Hope to see you again!</h1>
+                </div>
+                <div class="userTable">
                     <table>
                         <tr>
                             <th>Nickname</th>
@@ -48,8 +50,15 @@
             </div>    
         </div>
         <script>
+            // Stop Form Resubmission On Page Refresh
+            if ( window.history.replaceState ) {
+                window.history.replaceState( null, null, window.location.href );
+            }
+            
             // Obtaining nickname from previous page
             var nickname = sessionStorage.getItem("nickname");
+            console.log(typeof(nickname));
+
             // Obtaining array from PHP            
             var userArr = <?php echo json_encode($userArr); ?>;
 
@@ -63,9 +72,9 @@
                     points[0].innerHTML = userArr[i][1];
                     break;
                 }
-                // If nickname not found, user will be directed to welcome page
                 else {
-                    location.href = "./index.php";
+                    document.querySelector(".name").innerHTML  = nickname;
+                    points[0].innerHTML = 0;
                 }
             }
         </script>

@@ -80,21 +80,28 @@ input[type=submit], button {
     float: right;
 }
 
-table {
+.userTable table {
     font-family: var(--font-mono);
     border-collapse: collapse;
+    color: var(--gray);
     width: 100%;
 }
 
-th {
-    background-color: var(--gray);
+.userTable th {
+    color: var(--white);
+    background-color: var(--lightest-gray);
 }
 
-td, th {
-    border: 1px solid #dddddd;
+.userTable td, th {
+    border: 1px solid var(--gray);
     text-align: left;
     padding: 8px;
     text-align: center;
+}
+
+.userTable tr:hover {
+    background-color: var(--dark-gray);
+    color: var(--white);
 }
 
 .exit-button {
