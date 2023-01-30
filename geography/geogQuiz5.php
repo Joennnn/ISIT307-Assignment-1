@@ -5,8 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Geography Quiz Question 5</title>
-        <link rel="stylesheet" href='../styles/quiz.css'>
     </head>
+    <style><?php include '../styles/quiz.css'; ?></style>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
     <?php 
@@ -44,25 +44,20 @@
                     <br /> <br />
 
                     <div class="quesButton">
-                        <input type='submit' name='previous' value='Previous' />
+                        <button type="button" onclick="location.href = 'geogQuiz4.php'">Previous</button></br></br>
                         <input type='submit' name='next' value='Next' />
                     </div>
                 </form>
             </div>
         </div>
-        <script>
-            // Stop Form Resubmission On Page Refresh
-            if ( window.history.replaceState ) {
-                window.history.replaceState( null, null, window.location.href );
-            }
-                   
+        <script>          
             // Obtaining currPoints from previous page
             var currPoints = parseInt(sessionStorage.getItem("currPoints"));
             var ansVal = <?php echo json_encode($ansVal, JSON_HEX_TAG); ?>; 
 
             // Setting time out variable
             var type_timer;
-            var finished_writing_interval = 1000;
+            var finished_writing_interval = 500;
             var inputText = document.getElementsByName("ansText")[0];
 
             // Start timeout when user start typing
