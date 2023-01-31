@@ -57,7 +57,6 @@
             
             // Obtaining nickname from previous page
             var nickname = sessionStorage.getItem("nickname");
-            console.log(typeof(nickname));
 
             // Obtaining array from PHP            
             var userArr = <?php echo json_encode($userArr); ?>;

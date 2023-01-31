@@ -10,7 +10,8 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
     <?php 
-        # Reference quiz https://www.funtrivia.com/en/History/Singapore-18266.html
+        session_start();
+        # Reference quiz https://www.funtrivia.com/en/Geography/Singapore-12873.html
         # Open questions file
         $filename = "open-ended.txt";
         $fp = @fopen($filename, 'r'); 
@@ -30,35 +31,50 @@
         }
 
         # Obtaining index of question array
-        $quesIndex = array_rand($geogQues);
+        $quesIndex = $_SESSION['key3'] ?? ( $_SESSION['key3'] = array_rand($geogQues));
         # Obtaining answer for current question
         $ansVal = $geogAns[$quesIndex];
+
+        // Define variables and set to empty values
+        $errEmpty = "";
+        $answerText = "";
         
+        // Check if input answer is empty
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (empty($_POST["ansText"])) {
+                $errEmpty = "Please enter your answer";
+            } else {
+                header("Location: ./geogQuiz4.php");
+            }
+        }
         ?>
         <div class="main-container">
             <h1>Question 3</h1>
             <div class='form-container'>
-                <form action='geogQuiz4.php' method='POST'>
+                <form action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>' method='POST'>
                     <?php echo '<p>'; echo($geogQues[$quesIndex]); echo '</p>'; ?>
                     <input type='text' name="ansText" placeholder="Enter your answer" />
+                    <span class="error"><?php echo $errEmpty;?></span>
                     
                     <br /> <br />
 
                     <div class="quesButton">
                         <button type="button" onclick="location.href = 'geogQuiz2.php'">Previous</button></br></br>
-                        <button type="button" onclick="location.href = 'geogQuiz4.php'">Next</button></br></br>
+                        <input type="submit" name="next" value="Next" /></br></br>
                     </div>
                 </form>
             </div>
         </div>
         <script>
             // Stop Form Resubmission On Page Refresh
-            if ( window.history.replaceState ) {
+            if (window.history.replaceState) {
                 window.history.replaceState( null, null, window.location.href );
             }
             
+            var currPoints = 0;
             // Obtaining answer from server side
             var ansVal = <?php echo json_encode($ansVal, JSON_HEX_TAG); ?>; 
+            console.log(ansVal);
 
             // Setting time out variable
             var type_timer;
@@ -77,9 +93,9 @@
             });
 
             // When user finish typing, user input will be checked against answer
-            function finished_typing () {
+            function finished_typing() {
                 var finalText = document.getElementsByName("ansText")[0].value;
-                var currPoints = 0;
+                window.localStorage.setItem("geogUserInput", finalText);
 
                 if (finalText.trim().toLowerCase() === ansVal.trim().toLowerCase()) {
                     currPoints = 5;
@@ -90,6 +106,13 @@
                 // Saving current user points in session
                 sessionStorage.setItem("currPoints", currPoints);
             }
+
+            // Getting the saved value from localStorage. 
+            function getSavedValue(v) {
+                return (!window.localStorage.getItem(v) ? '' : window.localStorage.getItem(v));;
+            }
+            // Input value updated if user has typed their answer
+            var finalText = document.getElementsByName("ansText")[0].value = getSavedValue("geogUserInput");
         </script>
     </body>
 </html>

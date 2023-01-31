@@ -69,13 +69,13 @@
             // Ensuring selected radio is remembered if user presses back
             $(function() {
                 $('input[type=radio]').each(function() {
-                    var state = JSON.parse( localStorage.getItem('inputRadio'  + this.id) );
+                    var state = JSON.parse( window.localStorage.getItem('inputRadio'  + this.id) );
                     if (state) this.checked = state.checked;
                 });
             });
             $(window).bind('unload', function() {
                 $('input[type=radio]').each(function() {
-                    localStorage.setItem('inputRadio' + this.id, JSON.stringify({checked: this.checked}));
+                    window.localStorage.setItem('inputRadio' + this.id, JSON.stringify({checked: this.checked}));
                 });
             });
             

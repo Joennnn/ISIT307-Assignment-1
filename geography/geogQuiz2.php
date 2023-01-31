@@ -10,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
     <?php 
+        session_start();
         # Reference quiz https://www.funtrivia.com/en/Geography/Singapore-12873.html
         # Open questions file
         $filename = "mcqQues.txt";
@@ -35,8 +36,17 @@
             $mcqChoice[] = explode(",", $item);
         }
 
+        # Ensuring index of question array is not the same as previous question
+        $ques1Index = $_SESSION['key1'];
+        unset($geogQues[$ques1Index]);
+        
         # Obtaining index of question array
-        $quesIndex = array_rand($geogQues);
+        $quesIndex = $_SESSION['key2'] ?? ( $_SESSION['key2'] = array_rand($geogQues));
+        # Ensuring question index is within range of question array
+        if (count($geogQues) < $quesIndex) {
+            $quesIndex = $_SESSION['key2'] ?? ( $_SESSION['key2'] = array_rand($geogQues));
+        }
+
         # Obtaining answer for current question
         $ansVal = $mcqChoice[$quesIndex][0];
         ?>
@@ -57,7 +67,7 @@
 
                     <div class="quesButton">
                         <button type="button" onclick="location.href = 'geogQuiz1.php'">Previous</button></br></br>
-                        <button type="button" onclick="location.href = 'geogQuiz3.php'">Next</button></br></br>
+                        <input type="submit" name="next" value="Next" /></br></br>
                     </div>
                 </form>
             </div>
@@ -66,13 +76,13 @@
             // Ensuring selected radio is remembered if user presses back
             $(function() {
                 $('input[type=radio]').each(function() {
-                    var state = JSON.parse( localStorage.getItem('inputRadio'  + this.id) );
+                    var state = JSON.parse( window.localStorage.getItem('inputRadio'  + this.id) );
                     if (state) this.checked = state.checked;
                 });
             });
             $(window).bind('unload', function() {
                 $('input[type=radio]').each(function() {
-                    localStorage.setItem('inputRadio' + this.id, JSON.stringify({checked: this.checked}));
+                    window.localStorage.setItem('inputRadio' + this.id, JSON.stringify({checked: this.checked}));
                 });
             });
             

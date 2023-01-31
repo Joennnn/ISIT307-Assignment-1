@@ -9,7 +9,8 @@
     </head>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
-    <?php 
+    <?php
+        session_start();
         # Reference quiz https://www.funtrivia.com/en/Geography/Singapore-12873.html
         # Open questions file
         $filename = "mcqQues.txt";
@@ -36,9 +37,10 @@
         }
 
         # Obtaining index of question array
-        $quesIndex = array_rand($geogQues);
+        $quesIndex = $_SESSION['key1'] ?? ( $_SESSION['key1'] = array_rand($geogQues));
         # Obtaining answer for current question
         $ansVal = $mcqChoice[$quesIndex][0];
+
         ?>
         <div class="main-container">
             <a href="../home.php">
@@ -69,13 +71,13 @@
             // Ensuring selected radio is remembered if user presses back
             $(function() {
                 $('input[type=radio]').each(function() {
-                    var state = JSON.parse( localStorage.getItem('inputRadio'  + this.id) );
+                    var state = JSON.parse( window.localStorage.getItem('inputRadio'  + this.id) );
                     if (state) this.checked = state.checked;
                 });
             });
             $(window).bind('unload', function() {
                 $('input[type=radio]').each(function() {
-                    localStorage.setItem('inputRadio' + this.id, JSON.stringify({checked: this.checked}));
+                    window.localStorage.setItem('inputRadio' + this.id, JSON.stringify({checked: this.checked}));
                 });
             });
 

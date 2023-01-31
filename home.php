@@ -8,6 +8,7 @@
         <link rel="stylesheet" href='./styles/index.css'>
     </head>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <?php session_start(); ?>
     <body>
         <div class="main-container">
             <div class="options-container">
@@ -36,6 +37,15 @@
             
             var nickname = sessionStorage.getItem("nickname");
             console.log(nickname)
+            
+            window.localStorage.clear();
         </script>
+        <?php
+            unset($_SESSION['key1']);
+            unset($_SESSION['key2']);
+            unset($_SESSION['key3']);
+            unset($_SESSION['key4']);
+            unset($_SESSION['key5']);
+        ?>
     </body>
 </html>

@@ -10,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <body>
         <?php
+            session_start();
             # Open points file
             $filename = "../points/totalPoints.txt";
             $fp = @fopen($filename, 'r');
@@ -46,7 +47,7 @@
                     <button>Leaderboard</button>
                 </a>
                 
-                <a href="../index.php">
+                <a href="../currPoints.php">
                     <button>Exit quiz</button>
                 </a>
             </div>
@@ -76,6 +77,7 @@
 
             // Obtaining nickname from previous page
             var nickname = sessionStorage.getItem("nickname");
+            var newPlayer = false;
 
             // Obtaining points from questions
             var ques1Points = parseInt(sessionStorage.getItem("ques1Points"));
@@ -83,37 +85,47 @@
             var ques3Points = parseInt(sessionStorage.getItem("ques3Points"));
             var currPoints = parseInt(sessionStorage.getItem("currPoints"));
 
+            // Adding all points together
+            var totalPoints = (currPoints + ques1Points + ques2Points + ques3Points);
+
             // Obtaining array from PHP
             var userArr = <?php echo json_encode($userArr); ?>;
 
             // Displays current points from quiz
             let current = document.getElementsByClassName("currentPoint");
-            current[0].innerHTML = (currPoints + ques1Points + ques2Points + ques3Points);
-
             let overall = document.getElementsByClassName("overallPoint");
+            current[0].innerHTML = totalPoints;
 
             // Checking if current user has score within points file
             for (let i = 0; i < userArr.length; i++) {
                 if (nickname === userArr[i][0]){
                     // Displays overall points after current quiz
-                    let totalPoints = parseInt(userArr[i][1]) + currPoints;
-                    overall[0].innerHTML = totalPoints;
+                    overall[0].innerHTML = parseInt(userArr[i][1]) + totalPoints;
 
                     // Update array with updated points
-                    userArr[i][1] = totalPoints;
+                    userArr[i][1] = parseInt(userArr[i][1]) + totalPoints;
                     break;
                 }
                 else {
-                    // Displays points for new user
-                    overall[0].innerHTML = currPoints;
+                    newPlayer = true;
                 }
             }
-            // Save new user details to userArr
-            userArr.push([nickname, currPoints]);
+
+            // If user is a new player
+            if (newPlayer) {
+                // Displays points for new user
+                overall[0].innerHTML = totalPoints;
+                
+                // Save new user details to userArr
+                userArr.push([nickname, totalPoints]);
+            }
+            
             // Creating cookie after update of userArr
             $(document).ready(function () {
-                createCookie("userPointsArr", userArr, "10");
+                createCookie("userPointsArr", userArr, "1");
             });
+
+            window.localStorage.clear();
         </script>
         <?php
             // Getting array by using cookie
@@ -130,6 +142,13 @@
             );
             // Saving updated array to text file
             file_put_contents('../points/totalPoints.txt', implode("\n", $txtArr));
+
+            // Resetting the session
+            unset($_SESSION['key1']);
+            unset($_SESSION['key2']);
+            unset($_SESSION['key3']);
+            unset($_SESSION['key4']);
+            unset($_SESSION['key5']);
         ?>;
     </body>
 </html>
