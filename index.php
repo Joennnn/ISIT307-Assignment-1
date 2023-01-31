@@ -9,19 +9,18 @@
     </head>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <?php 
-        // Checks if input value is not empty
-        if (isset($_POST['submit'])) {
-            if (isset( $_POST['nickname'] ) &&  strlen( $_POST['nickname'] )) {
+        // Define variables and set to empty values
+        $errEmpty = "";
+        $answerText = "";
+
+        // Check if input answer is empty
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (empty($_POST["nickname"])) {
+                $errEmpty = "Please enter a nickname";
+            } else {
                 header("Location: ./home.php");
             }
-            else { 
-    ?>
-            <script>
-                alert("Please enter a nickname");
-            </script>
-    <?php 
         }
-    };
     ?>
     <body>
         <div class="main-container">
@@ -31,7 +30,8 @@
                     <div class="nickname-form">
                         <form action="index.php"  method="POST">
                             <label for="nickname">Enter a nickname: </label>
-                            <input type="text" name="nickname"><br><br>
+                            <input type="text" name="nickname" placeholder="Enter your nickname" />
+                            <span class="error"><?php echo $errEmpty;?></span> <br><br>
                             <input type="submit" name="submit" value="Submit">
                         </form>
                     </div>

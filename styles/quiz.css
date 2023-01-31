@@ -45,6 +45,12 @@ input[type=submit], button {
     font-size: var(--fz-md);
 }
 
+.error {
+    color: red;
+    font-size: var(--fz-sm);
+    font-family: var(--font-mono);
+}
+
 .form-container {
     margin: 0 auto;
     padding: 30px 0;

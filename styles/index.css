@@ -111,6 +111,12 @@ input[type=submit], button {
     padding-top: 20px;
 }
 
+.error {
+    color: red;
+    font-size: var(--fz-sm);
+    font-family: var(--font-mono);
+}
+
 @media (max-width: 768px) {
     .main-container {
         padding: 80px 0;
