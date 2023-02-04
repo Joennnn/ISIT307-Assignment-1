@@ -37,7 +37,6 @@
 
         // Define variables and set to empty values
         $errEmpty = "";
-        $answerText = "";
 
         // Check if input answer is empty
         if ($_SERVER["REQUEST_METHOD"] == "POST") {

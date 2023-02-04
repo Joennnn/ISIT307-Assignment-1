@@ -67,7 +67,7 @@
 
                     <div class="quesButton">
                         <button type="button" onclick="location.href = 'geogQuiz1.php'">Previous</button></br></br>
-                        <input type="submit" name="next" value="Next" /></br></br>
+                        <button type="button" onclick="location.href = 'geogQuiz3.php'">Next</button></br></br>
                     </div>
                 </form>
             </div>
