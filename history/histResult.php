@@ -58,23 +58,6 @@
                 window.history.replaceState( null, null, window.location.href );
             }
 
-            // Creating cookie
-            function createCookie(name, value, days) {
-                var expires;
-                
-                if (days) {
-                    var date = new Date();
-                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                    expires = "; expires=" + date.toGMTString();
-                }
-                else {
-                    expires = "";
-                }
-                
-                document.cookie = escape(name) + "=" + 
-                    escape(value) + expires + "; path=/";
-            }; 
-
             // Obtaining nickname from previous page
             var nickname = sessionStorage.getItem("nickname");
             var newPlayer = false;
@@ -120,28 +103,44 @@
                 userArr.push([nickname, totalPoints]);
             }
             
-            // Creating cookie after update of userArr
-            $(document).ready(function () {
-                createCookie("userPointsArr", userArr, "1");
+            // Creating POST after update of userArr
+            $.ajax({
+                type: "POST",
+                url: "histResult.php",
+                data: { userData: JSON.stringify(userArr) },
+                success: function(response) {
+                    console.log(response);
+                }
             });
 
             window.localStorage.clear();
         </script>
         <?php
-            // Getting array by using cookie
-            $txt = $_COOKIE["userPointsArr"];
+            if (!array_key_exists('userData', $_POST)) {
+                die('');
+            }
+            
+            # Obtaining the data from POST         
+            $data = json_decode($_POST['userData'], true);
+            
+            if (!is_array($data)) {
+                die('');
+            }
+            
+            # Writing to file
+            $file = fopen("../points/totalPoints.txt", "w");
+            $numRows = count($data);
+            $currentRow = 0;
 
-            // Converting string to array
-            $txtArr = array_map(
-                function($value) {
-                    return implode(', ', $value);
-                },
-                array_chunk(
-                    explode(',', $txt), 2
-                )
-            );
-            // Saving updated array to text file
-            file_put_contents('../points/totalPoints.txt', implode("\n", $txtArr));
+            foreach ($data as $row) {
+                fwrite($file, $row[0] . ', ' . $row[1]);
+                $currentRow++;
+                if ($currentRow < $numRows) {
+                    fwrite($file, "\n");
+                }
+            }
+
+            fclose($file);   
 
             // Resetting the session
             unset($_SESSION['key1']);

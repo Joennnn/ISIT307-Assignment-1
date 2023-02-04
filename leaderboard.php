@@ -68,6 +68,11 @@
             let table = document.getElementsByClassName("pointsTable");
 
             for (let i = 0; i < userArr.length; i++) {
+                // Skips the last line if it is empty
+                if (userArr[i][0] === '') {
+                    continue;
+                }
+
                 const row = document.createElement("tr");
 
                 for (let j = 0; j < 2; j++) {

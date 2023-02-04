@@ -1,4 +1,4 @@
-user1, 60
+user1, 11
 user2, 34
 abc, 28
 fgh, 44
@@ -7,3 +7,4 @@ qwe, 56
 bnhj, -8
 hjjg, 110
 asd, 20
+asdasd, 25
